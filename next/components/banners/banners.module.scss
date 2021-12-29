@@ -1,0 +1,11 @@
+.carousel {
+  height: var(--folder-height);
+  background-color: purple;
+  :global(.carousel-inner) {
+    height: 100%;
+  }
+}
+
+.carouselItem {
+  height: 100%;
+}

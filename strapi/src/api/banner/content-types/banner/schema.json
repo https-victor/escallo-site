@@ -1,0 +1,50 @@
+{
+  "kind": "collectionType",
+  "collectionName": "banners",
+  "info": {
+    "singularName": "banner",
+    "pluralName": "banners",
+    "displayName": "Banner",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "cta": {
+      "type": "component",
+      "repeatable": true,
+      "component": "button.button"
+    },
+    "social_media": {
+      "type": "component",
+      "repeatable": true,
+      "component": "button.icon-button"
+    },
+    "layout_type": {
+      "type": "enumeration",
+      "enum": [
+        "layout_1",
+        "layout_2"
+      ],
+      "default": "layout_1"
+    },
+    "description": {
+      "type": "text"
+    },
+    "hero_image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "background": {
+      "type": "component",
+      "repeatable": false,
+      "component": "background.background"
+    }
+  }
+}

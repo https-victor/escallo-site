@@ -1,0 +1,46 @@
+{
+  "kind": "collectionType",
+  "collectionName": "segmentos",
+  "info": {
+    "singularName": "segmento",
+    "pluralName": "segmentos",
+    "displayName": "Segmento",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "button": {
+      "type": "component",
+      "repeatable": false,
+      "component": "button.icon-text-button",
+      "required": true
+    },
+    "video": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "videos"
+      ]
+    },
+    "vantagens": {
+      "type": "richtext",
+      "required": true
+    },
+    "logo": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "empresa": {
+      "type": "string",
+      "required": true
+    }
+  }
+}

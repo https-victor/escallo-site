@@ -1,3 +1,4 @@
+import qs from "qs";
 export default function Post({ post }) {
   console.log(post);
   if (post.error) {
@@ -30,7 +31,6 @@ export async function getStaticPaths() {
 }
 export async function getStaticProps({ params }) {
   const { slug } = params;
-  const qs = require("qs");
   const query = qs.stringify(
     {
       filters: {

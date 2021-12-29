@@ -1,0 +1,30 @@
+{
+  "collectionName": "components_button_icon_text_buttons",
+  "info": {
+    "displayName": "Icon Text Button",
+    "icon": "copyright",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "texto": {
+      "type": "string",
+      "default": "Saúde"
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "image_active": {
+      "allowedTypes": [
+        "images"
+      ],
+      "type": "media",
+      "multiple": false
+    }
+  }
+}

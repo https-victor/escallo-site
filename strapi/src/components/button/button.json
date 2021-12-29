@@ -1,0 +1,25 @@
+{
+  "collectionName": "components_button_buttons",
+  "info": {
+    "displayName": "Button",
+    "icon": "circle",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "layout": {
+      "type": "enumeration",
+      "enum": [
+        "layout_1",
+        "layout_2"
+      ],
+      "default": "layout_1"
+    },
+    "texto": {
+      "type": "string"
+    },
+    "link": {
+      "type": "string"
+    }
+  }
+}

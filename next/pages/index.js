@@ -1,44 +1,91 @@
+import { formatStrapiArray } from "../functions/formatters";
+import qs from "qs";
 import Head from "next/head";
-import Image from "next/image";
-import styles from "../styles/Home.module.css";
+import Footer from "../components/footer/Footer";
+import Banners from "../components/banners/Banners";
+import Header from "../components/header/Header";
+import styles from "../styles/home.module.css";
 
-export default function Home({ posts }) {
+export default function Home(props) {
+  console.log(props);
+  const segmentos = formatStrapiArray(props.segmentos);
+  const banners = formatStrapiArray(props.banners);
+  console.log(segmentos);
+
+  console.log(banners);
   return (
-    <div className={styles.container}>
+    <div>
       <Head>
-        <title>Escallo | Plataforma Completa de Atendimento Multicanal</title>
-        <meta
-          name="description"
-          content="A plataforma de atendimento multicanal, que vai te ajudar a atender o cliente de forma rápida e ágil, além de gerir estrategicamente o seu Contact Center"
-        />
+        <title>{props.titulo}</title>
+        <meta name="description" content={props.description} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
+      <Header />
 
-        <div className={styles.grid}>
-          {posts.map((post) => (
-            <div key={post.id}>
-              <h2>{post.title}</h2>
-              <p>{post.content}</p>
-            </div>
-          ))}
-        </div>
+      <main className={styles.main}>
+        <Banners data={banners} />
+
+        <div className={styles.grid}></div>
       </main>
+
+      <Footer />
     </div>
   );
 }
 
 export async function getStaticProps() {
-  const res = await fetch("http://localhost:1337/api/posts");
-  const posts = await res.json();
-  return {
-    props: {
-      posts: posts.data.map(({ id, attributes }) => ({ id, ...attributes })),
+  const homepageQuery = qs.stringify(
+    {
+      populate: ["cta"],
     },
+    {
+      encodeValuesOnly: true,
+    }
+  );
+  const homepageRes = await fetch(
+    "http://localhost:1337/api/homepage?" + homepageQuery
+  );
+  const homepageData = await homepageRes.json();
+
+  const bannersQuery = qs.stringify(
+    {
+      populate: [
+        "cta",
+        "social_media.icon",
+        "hero_image",
+        "background.background_image",
+      ],
+    },
+    {
+      encodeValuesOnly: true,
+    }
+  );
+  const bannersRes = await fetch(
+    "http://localhost:1337/api/banners?" + bannersQuery
+  );
+  const banners = await bannersRes.json();
+
+  const segmentosQuery = qs.stringify(
+    {
+      populate: [
+        "cta",
+        "social_media.icon",
+        "hero_image",
+        "background.background_image",
+      ],
+    },
+    {
+      encodeValuesOnly: true,
+    }
+  );
+  const segmentosRes = await fetch(
+    "http://localhost:1337/api/segmentos?" + segmentosQuery
+  );
+  const segmentos = await segmentosRes.json();
+
+  return {
+    props: { ...homepageData.data.attributes, banners, segmentos },
     revalidate: 1,
   };
 }

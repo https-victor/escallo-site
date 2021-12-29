@@ -1,0 +1,37 @@
+{
+  "collectionName": "components_slider_segmento_sliders",
+  "info": {
+    "displayName": "Segmento slider",
+    "icon": "columns"
+  },
+  "options": {},
+  "attributes": {
+    "button": {
+      "displayName": "Icon Text Button",
+      "type": "component",
+      "repeatable": false,
+      "component": "button.icon-text-button",
+      "required": true
+    },
+    "video": {
+      "allowedTypes": [
+        "videos"
+      ],
+      "type": "media",
+      "multiple": false,
+      "required": true
+    },
+    "logo": {
+      "allowedTypes": [
+        "images"
+      ],
+      "type": "media",
+      "multiple": false,
+      "required": true
+    },
+    "vantagens": {
+      "type": "richtext",
+      "required": true
+    }
+  }
+}

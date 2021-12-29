@@ -1,0 +1,21 @@
+{
+  "collectionName": "components_button_icon_buttons",
+  "info": {
+    "displayName": "Icon Button",
+    "icon": "certificate",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "icon": {
+      "allowedTypes": [
+        "images"
+      ],
+      "type": "media",
+      "multiple": false
+    },
+    "url": {
+      "type": "string"
+    }
+  }
+}

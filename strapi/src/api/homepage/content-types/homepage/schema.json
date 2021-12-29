@@ -1,0 +1,68 @@
+{
+  "kind": "singleType",
+  "collectionName": "homepages",
+  "info": {
+    "singularName": "homepage",
+    "pluralName": "homepages",
+    "displayName": "Homepage",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "titulo": {
+      "type": "string",
+      "default": "Escallo | Plataforma Completa de Atendimento Multicanal",
+      "required": true
+    },
+    "description": {
+      "type": "text",
+      "required": true,
+      "default": "A plataforma de atendimento multicanal, que vai te ajudar a atender o cliente de forma rápida e ágil, além de gerir estrategicamente o seu Contact Center"
+    },
+    "segmentos_titulo": {
+      "type": "string",
+      "default": "Segmentos em atendimento omnichannel"
+    },
+    "subtitulo_logo": {
+      "type": "string"
+    },
+    "logo": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "demo_titulo": {
+      "type": "string"
+    },
+    "demo_subtitulo": {
+      "type": "string"
+    },
+    "demo_image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "demo_hero_image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "cta": {
+      "type": "component",
+      "repeatable": false,
+      "component": "button.button"
+    }
+  }
+}

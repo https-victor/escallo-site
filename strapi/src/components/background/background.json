@@ -1,0 +1,23 @@
+{
+  "collectionName": "components_background_backgrounds",
+  "info": {
+    "displayName": "Background",
+    "icon": "paint-roller",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "background_image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "videos"
+      ]
+    },
+    "color": {
+      "type": "string"
+    }
+  }
+}
