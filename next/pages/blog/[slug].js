@@ -1,6 +1,5 @@
 import qs from "qs";
 export default function Post({ post }) {
-  console.log(post);
   if (post.error) {
     return (
       <article>

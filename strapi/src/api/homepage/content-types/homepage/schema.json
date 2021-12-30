@@ -26,9 +26,6 @@
       "type": "string",
       "default": "Segmentos em atendimento omnichannel"
     },
-    "subtitulo_logo": {
-      "type": "string"
-    },
     "logo": {
       "type": "media",
       "multiple": false,
@@ -63,6 +60,10 @@
       "type": "component",
       "repeatable": false,
       "component": "button.button"
+    },
+    "subtitulo_logo": {
+      "type": "string",
+      "default": "Plataforma de atendimento <strong>multicanal</strong>"
     }
   }
 }

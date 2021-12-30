@@ -1,11 +1,99 @@
-.carousel {
-  height: var(--folder-height);
-  background-color: purple;
+@use "styles/variables";
+@use "styles/colors";
+@import "/styles/mixins";
+
+.carousel :global(.swiper) {
+  height: variables.$folder-height;
   :global(.carousel-inner) {
     height: 100%;
   }
 }
 
-.carouselItem {
+.bannerWrapper {
+  &.layout_1 {
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    .background {
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+      object-position: bottom;
+      z-index: -1;
+    }
+    .topSection {
+      width: 90%;
+      height: 70%;
+      display: flex;
+      .leftSection {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        height: 100%;
+        width: 50%;
+        & > img {
+          max-width: 70%;
+          max-height: 80%;
+        }
+        .subtitulo {
+          margin-top: 1.5em;
+          margin-bottom: 3em;
+          font-size: 1.5em;
+          color: colors.$main-color;
+          strong {
+            font-weight: bold;
+          }
+        }
+      }
+      .rightSection {
+        width: 50%;
+        display: flex;
+        justify-content: flex-end;
+        align-items: flex-end;
+        .heroImage {
+          max-height: 70%;
+          margin-bottom: -2px;
+        }
+      }
+    }
+    .divider {
+      .wrapper {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        .line {
+          flex: 1;
+          height: 100%;
+          background-color: colors.$dark-color;
+          border-radius: 3px;
+        }
+        .cta {
+          @include cta;
+          margin: 0 2em;
+        }
+      }
+
+      position: relative;
+      height: 3px;
+      width: 90%;
+    }
+    .bottomSection {
+      margin-top: 60px;
+      text-align: center;
+      color: colors.$dark-color;
+      width: 35%;
+      min-width: 480px;
+      flex: 1;
+    }
+  }
+  &.layout_2 {
+  }
   height: 100%;
+  width: 100%;
+  background-color: white;
 }

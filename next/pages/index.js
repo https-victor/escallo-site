@@ -1,4 +1,5 @@
-import { formatStrapiArray } from "../functions/formatters";
+import { formatStrapiArray, formatStrapiObject } from "../functions/formatters";
+import AppContext from "../context/AppContext";
 import qs from "qs";
 import Head from "next/head";
 import Footer from "../components/footer/Footer";
@@ -7,37 +8,42 @@ import Header from "../components/header/Header";
 import styles from "../styles/home.module.css";
 
 export default function Home(props) {
-  console.log(props);
   const segmentos = formatStrapiArray(props.segmentos);
   const banners = formatStrapiArray(props.banners);
-  console.log(segmentos);
-
-  console.log(banners);
+  console.log(props);
+  const logoImage = formatStrapiObject(props.logo);
   return (
-    <div>
-      <Head>
-        <title>{props.titulo}</title>
-        <meta name="description" content={props.description} />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+    <AppContext.Provider
+      value={{
+        logoImage,
+        subtitulo_logo: props.subtitulo_logo,
+      }}
+    >
+      <div>
+        <Head>
+          <title>{props.titulo}</title>
+          <meta name="description" content={props.description} />
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
 
-      <Header />
+        <Header />
 
-      <main className={styles.main}>
-        <Banners data={banners} />
+        <main className={styles.main}>
+          <Banners data={banners} />
 
-        <div className={styles.grid}></div>
-      </main>
+          <div className={styles.grid}></div>
+        </main>
 
-      <Footer />
-    </div>
+        <Footer />
+      </div>
+    </AppContext.Provider>
   );
 }
 
 export async function getStaticProps() {
   const homepageQuery = qs.stringify(
     {
-      populate: ["cta"],
+      populate: ["cta", "logo", "demo_image", "demo_hero_image"],
     },
     {
       encodeValuesOnly: true,
