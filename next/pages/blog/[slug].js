@@ -16,7 +16,7 @@ export default function Post({ post }) {
 }
 
 export async function getStaticPaths() {
-  const res = await fetch("http://localhost:1337/api/posts");
+  const res = await fetch(process.env.NEXT_PUBLIC_STRAPI_URL + "/api/posts");
   const posts = await res.json();
 
   const paths = posts.data.map((post) => ({
@@ -43,7 +43,9 @@ export async function getStaticProps({ params }) {
     }
   );
 
-  const res = await fetch("http://localhost:1337/api/posts?" + query);
+  const res = await fetch(
+    process.env.NEXT_PUBLIC_STRAPI_URL + "/api/posts?" + query
+  );
   const data = await res.json();
   //   const post = { id: data.data.id, ...data.data.attributes };
   if (data.data[0]) {

@@ -37,10 +37,6 @@
       "allowedTypes": [
         "images"
       ]
-    },
-    "empresa": {
-      "type": "string",
-      "required": true
     }
   }
 }

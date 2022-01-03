@@ -64,6 +64,11 @@
     "subtitulo_logo": {
       "type": "string",
       "default": "Plataforma de atendimento <strong>multicanal</strong>"
+    },
+    "segmentos_cta": {
+      "type": "component",
+      "repeatable": false,
+      "component": "button.button"
     }
   }
 }

@@ -5,18 +5,21 @@ import Head from "next/head";
 import Footer from "../components/footer/Footer";
 import Banners from "../components/banners/Banners";
 import Header from "../components/header/Header";
-import styles from "../styles/home.module.css";
+import styles from "../styles/home.module.scss";
+import Segmentos from "../components/segmentos/Segmentos";
 
 export default function Home(props) {
   const segmentos = formatStrapiArray(props.segmentos);
   const banners = formatStrapiArray(props.banners);
-  console.log(props);
   const logoImage = formatStrapiObject(props.logo);
+  console.log(props);
   return (
     <AppContext.Provider
       value={{
         logoImage,
         subtitulo_logo: props.subtitulo_logo,
+        segmentos_titulo: props.segmentos_titulo,
+        segmentos_cta: props.segmentos_cta,
       }}
     >
       <div>
@@ -31,7 +34,7 @@ export default function Home(props) {
         <main className={styles.main}>
           <Banners data={banners} />
 
-          <div className={styles.grid}></div>
+          <Segmentos data={segmentos} />
         </main>
 
         <Footer />
@@ -43,14 +46,21 @@ export default function Home(props) {
 export async function getStaticProps() {
   const homepageQuery = qs.stringify(
     {
-      populate: ["cta", "logo", "demo_image", "demo_hero_image"],
+      populate: [
+        "cta",
+        "logo",
+        "demo_image",
+        "segmentos_cta",
+        "demo_hero_image",
+      ],
     },
     {
       encodeValuesOnly: true,
     }
   );
+
   const homepageRes = await fetch(
-    "http://localhost:1337/api/homepage?" + homepageQuery
+    process.env.NEXT_PUBLIC_STRAPI_URL + "/api/homepage?" + homepageQuery
   );
   const homepageData = await homepageRes.json();
 
@@ -68,25 +78,20 @@ export async function getStaticProps() {
     }
   );
   const bannersRes = await fetch(
-    "http://localhost:1337/api/banners?" + bannersQuery
+    process.env.NEXT_PUBLIC_STRAPI_URL + "/api/banners?" + bannersQuery
   );
   const banners = await bannersRes.json();
 
   const segmentosQuery = qs.stringify(
     {
-      populate: [
-        "cta",
-        "social_media.icon",
-        "hero_image",
-        "background.background_image",
-      ],
+      populate: ["button.image", "button.image_active", "video", "logo"],
     },
     {
       encodeValuesOnly: true,
     }
   );
   const segmentosRes = await fetch(
-    "http://localhost:1337/api/segmentos?" + segmentosQuery
+    process.env.NEXT_PUBLIC_STRAPI_URL + "/api/segmentos?" + segmentosQuery
   );
   const segmentos = await segmentosRes.json();
 

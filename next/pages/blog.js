@@ -34,7 +34,7 @@ export default function Blog({ posts }) {
 }
 
 export async function getStaticProps() {
-  const res = await fetch("http://localhost:1337/api/posts");
+  const res = await fetch(process.env.NEXT_PUBLIC_STRAPI_URL + "/api/posts");
   const posts = await res.json();
   return {
     props: {
