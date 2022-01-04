@@ -73,11 +73,12 @@ const Segmentos = ({ data }) => {
           loop={false}
           style={{ width: "100%" }}
           autoplay={{
-            delay: 1500,
+            delay: 4000,
           }}
         >
-          {data.map((segmento) => {
+          {data.map((segmento, idx) => {
             console.log(segmento);
+            const isActive = Boolean(activeIndex === idx);
             const vantagens = parseToHtml(segmento.vantagens);
             const video = formatStrapiObject(segmento.video);
             const logo = formatStrapiObject(segmento.logo);
@@ -89,6 +90,7 @@ const Segmentos = ({ data }) => {
                     className="react-player"
                     controls={true}
                     url={process.env.NEXT_PUBLIC_STRAPI_URL + video.url}
+                    muted={!isActive}
                     width="100%"
                     height="100%"
                   />
