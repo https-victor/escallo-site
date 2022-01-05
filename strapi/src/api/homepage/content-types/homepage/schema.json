@@ -56,7 +56,7 @@
         "images"
       ]
     },
-    "cta": {
+    "demo_cta": {
       "type": "component",
       "repeatable": false,
       "component": "button.button"
@@ -69,6 +69,43 @@
       "type": "component",
       "repeatable": false,
       "component": "button.button"
+    },
+    "resultados_titulo": {
+      "type": "string"
+    },
+    "resultados_hero_happy": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "resultados_descricao": {
+      "type": "text"
+    },
+    "resultados_between_the_lines": {
+      "type": "string"
+    },
+    "resultados": {
+      "displayName": "Resultado",
+      "type": "component",
+      "repeatable": true,
+      "component": "resultado.resultado"
+    },
+    "resultados_arrow": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "blog_titulo": {
+      "type": "string"
+    },
+    "blog_subtitulo": {
+      "type": "string"
     }
   }
 }

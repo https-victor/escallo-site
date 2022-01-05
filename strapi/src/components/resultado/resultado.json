@@ -1,0 +1,23 @@
+{
+  "collectionName": "components_resultado_resultados",
+  "info": {
+    "displayName": "Resultado",
+    "icon": "align-justify"
+  },
+  "options": {},
+  "attributes": {
+    "icon": {
+      "allowedTypes": [
+        "images"
+      ],
+      "type": "media",
+      "multiple": false
+    },
+    "numero": {
+      "type": "string"
+    },
+    "descricao": {
+      "type": "text"
+    }
+  }
+}

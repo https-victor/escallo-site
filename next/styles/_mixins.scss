@@ -5,6 +5,7 @@
   padding: 10px 2.5em;
   min-width: 150px;
   color: colors.$dark-color;
+  text-align: center;
   font-size: 1.15em;
   font-weight: bold;
   background-color: colors.$cta-background-1;
@@ -12,4 +13,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+@mixin h2 {
+  font-weight: bold;
+  font-size: 3em;
 }

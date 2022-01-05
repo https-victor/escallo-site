@@ -18,13 +18,11 @@ SwiperCore.use([Autoplay, Navigation]);
 
 const Segmentos = ({ data }) => {
   const { segmentos_titulo, segmentos_cta } = useContext(AppContext);
-  console.log(segmentos_cta);
   const [swiper, setSwiper] = useState(undefined);
   const [activeIndex, setActiveIndex] = useState(0);
   function onSlideChange(newSwiper) {
     setActiveIndex(newSwiper.activeIndex);
   }
-  console.log(data);
   return (
     <section className={styles.segmentos}>
       <h2>{segmentos_titulo}</h2>
@@ -77,7 +75,6 @@ const Segmentos = ({ data }) => {
           }}
         >
           {data.map((segmento, idx) => {
-            console.log(segmento);
             const isActive = Boolean(activeIndex === idx);
             const vantagens = parseToHtml(segmento.vantagens);
             const video = formatStrapiObject(segmento.video);
