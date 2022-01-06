@@ -65,8 +65,7 @@
 }
 
 .resultados {
-  height: variables.$folder-height;
-  min-height: variables.$min-folder-height;
+  min-height: 700px;
   padding: 2rem 5%;
   display: flex;
   flex-direction: column;
@@ -83,12 +82,16 @@
   .resultadosWrapper {
     flex: 1;
     display: flex;
+    justify-content: center;
+    margin-top: 2rem;
     height: 100%;
+    gap: 5%;
     .resultadosHeroWrapper {
+      flex: 1;
+      max-width: 600px;
       display: flex;
       width: 30%;
       flex-direction: column;
-      margin-right: 2rem;
       justify-content: flex-end;
       p {
         color: colors.$dark-color;
@@ -102,8 +105,19 @@
     }
     .resultadosContainer {
       border-radius: 30px;
-
-      flex: 1;
+      position: relative;
+      &::after {
+        content: "";
+        position: absolute;
+        width: 100%;
+        bottom: -15px;
+        left: 15px;
+        z-index: -1;
+        height: 100%;
+        background: transparent;
+        border-radius: 30px;
+        border: 3px solid colors.$secondary-color;
+      }
       margin: 0;
       padding: 2rem 5%;
       display: flex;
@@ -139,6 +153,7 @@
   & > p {
     text-align: right;
     width: 100%;
+    margin-top: 1rem;
     font-weight: bold;
     color: colors.$dark-color;
     font-size: 12px;
@@ -154,10 +169,136 @@
 .blog {
   background-color: colors.$dark-color;
   color: white;
-  strong {
-    color: colors.$secondary-color;
+  display: flex;
+  padding: 3rem 5%;
+  gap: 3rem;
+  .newsletter {
+    flex: 1;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    .newsletterContainer {
+      min-width: 350px;
+      border-radius: 60px;
+      display: flex;
+      flex-direction: column;
+      background: colors.$gradient-horizontal;
+      width: 70%;
+      position: relative;
+      height: 80%;
+      padding: 2rem 2rem;
+      .form {
+        flex: 1;
+        justify-content: space-evenly;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        .submit {
+          @include cta;
+          border: none;
+        }
+        label {
+          color: colors.$dark-color;
+        }
+      }
+      h3 {
+        color: colors.$dark-color;
+        font-weight: normal;
+        text-align: center;
+        width: 100%;
+        font-size: 2em;
+        strong {
+          color: colors.$main-color;
+        }
+      }
+      &::after {
+        content: "";
+        background: white;
+
+        width: 100%;
+        height: 100%;
+        bottom: 15px;
+        right: 15px;
+        border-radius: 60px;
+        z-index: 0;
+        position: absolute;
+      }
+      & > * {
+        transform: translate(-15px, -15px);
+        z-index: 3;
+        position: relative;
+      }
+    }
   }
-  h2 {
-    @include h2;
+  .artigosWrapper {
+    .artigos {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      margin: {
+        top: 10px;
+        left: 10px;
+      }
+      .artigo {
+        &::after {
+          content: "";
+          background-color: white;
+
+          width: 100%;
+          height: 100%;
+          bottom: 15px;
+          right: 15px;
+          border-radius: 1rem;
+          z-index: 0;
+          position: absolute;
+        }
+        padding: 1rem;
+        display: flex;
+        width: 90%;
+        max-width: 750px;
+        border-radius: 1rem;
+        background: colors.$gradient-horizontal;
+        margin: 1.25rem 0;
+        color: colors.$dark-color;
+        height: 150px;
+        z-index: 1;
+        position: relative;
+        img {
+          border-radius: 1rem;
+          object-fit: cover;
+          object-position: center;
+          height: 100%;
+          @supports (aspect-ratio: 2/1) {
+            aspect-ratio: 2/1;
+          }
+          @supports not (aspect-ratio: 2/1) {
+            width: 200px;
+          }
+        }
+        .descriptionWrapper {
+          margin-left: 2rem;
+          display: flex;
+          flex-direction: column;
+          font-weight: bold;
+        }
+        & > * {
+          transform: translate(-15px, -15px);
+          z-index: 3;
+          position: relative;
+        }
+      }
+
+      & :nth-child(odd) {
+        align-self: flex-start;
+      }
+    }
+    width: 65%;
+    strong {
+      color: colors.$secondary-color;
+    }
+    h2 {
+      @include h2;
+      margin-top: 0;
+    }
   }
 }

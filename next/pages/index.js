@@ -8,10 +8,28 @@ import Header from "../components/header/Header";
 import styles from "../styles/home.module.scss";
 import Segmentos from "../components/segmentos/Segmentos";
 import parseToHtml from "html-react-parser";
+import { Formik } from "formik";
+import * as yup from "yup";
+import Form from "react-bootstrap/Form";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Button from "react-bootstrap/Button";
 
+const schema = yup.object().shape({
+  nome: yup.string().required("Informe o seu nome"),
+  email: yup
+    .string()
+    .required("Informe o seu e-mail")
+    .email("O e-mail está em um formato incorreto"),
+  termos: yup
+    .bool()
+    .required()
+    .oneOf([true], "Você deve estar de acordo com a Política de Privacidade"),
+});
 export default function Home(props) {
   console.log(props);
   const segmentos = formatStrapiArray(props.segmentos);
+  const posts = formatStrapiArray(props.posts);
   const banners = formatStrapiArray(props.banners);
   const logoImage = formatStrapiObject(props.logo);
 
@@ -20,6 +38,7 @@ export default function Home(props) {
 
   const resultadosHeroHappy = formatStrapiObject(props.resultados_hero_happy);
   const resultadosArrow = formatStrapiObject(props.resultados_arrow);
+
   return (
     <AppContext.Provider
       value={{
@@ -34,6 +53,12 @@ export default function Home(props) {
           <title>{props.titulo}</title>
           <meta name="description" content={props.description} />
           <link rel="icon" href="/favicon.ico" />
+          <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+            integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+            crossorigin="anonymous"
+          />
         </Head>
 
         <Header />
@@ -107,9 +132,137 @@ export default function Home(props) {
           </section>
 
           <section className={styles.blog}>
-            <h2>{props.blog_titulo}</h2>
-            <h3>{parseToHtml(props.blog_subtitulo)}</h3>
+            <div className={styles.artigosWrapper}>
+              <h2>{props.blog_titulo}</h2>
+              <h3>{parseToHtml(props.blog_subtitulo)}</h3>
+              <div className={styles.artigos}>
+                {posts.map((post) => {
+                  const cover = formatStrapiObject(post.cover);
+                  return (
+                    <div key={post.id} className={styles.artigo}>
+                      <img
+                        src={process.env.NEXT_PUBLIC_STRAPI_URL + cover.url}
+                      />
+                      <div className={styles.descriptionWrapper}>
+                        <p>{post.title}</p>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+            <div className={styles.newsletter}>
+              <div className={styles.newsletterContainer}>
+                <h3>
+                  ASSINE NOSSA <strong>NEWSLETTER</strong>
+                </h3>
+                <Formik
+                  validationSchema={schema}
+                  onSubmit={(values) => {
+                    console.log(values);
+                  }}
+                  initialValues={{
+                    nome: "",
+                    email: "",
+                    termos: false,
+                  }}
+                >
+                  {({
+                    handleSubmit,
+                    handleChange,
+                    values,
+                    touched,
+                    errors,
+                  }) => {
+                    return (
+                      <Form
+                        className={styles.form}
+                        noValidate
+                        onSubmit={handleSubmit}
+                      >
+                        <Form.Group controlId="validationFormik01">
+                          <Form.Label>Nome</Form.Label>
+                          <Form.Control
+                            type="text"
+                            placeholder="Nome"
+                            name="nome"
+                            value={values.nome}
+                            onChange={handleChange}
+                            isInvalid={!!errors.nome}
+                            isValid={touched.nome && !errors.nome}
+                          />
+                          {touched.nome && errors.nome && (
+                            <Form.Control.Feedback
+                              type={errors.nome && "invalid"}
+                            >
+                              {errors.nome}
+                            </Form.Control.Feedback>
+                          )}
+                        </Form.Group>
+                        <Form.Group controlId="validationFormik02">
+                          <Form.Label>E-mail</Form.Label>
+                          <Form.Control
+                            type="email"
+                            name="email"
+                            value={values.email}
+                            placeholder="E-mail"
+                            onChange={handleChange}
+                            isInvalid={!!errors.email}
+                            isValid={touched.email && !errors.email}
+                          />
+
+                          {touched.email && errors.email && (
+                            <Form.Control.Feedback
+                              type={errors.email && "invalid"}
+                            >
+                              {errors.email}
+                            </Form.Control.Feedback>
+                          )}
+                        </Form.Group>
+                        <Form.Group>
+                          <Form.Check
+                            required
+                            name="termos"
+                            label="Li e concordo com a Política de Privacidade"
+                            onChange={handleChange}
+                            isInvalid={!!errors.termos}
+                            feedback={errors.termos}
+                            feedbackType="invalid"
+                            id="validationFormik0"
+                          />
+                        </Form.Group>
+                        <button className={styles.submit} type="submit">
+                          INSCREVER
+                        </button>
+                      </Form>
+                    );
+                  }}
+                </Formik>
+              </div>
+            </div>
           </section>
+
+          <section className={styles.materiais}>
+            <div className={styles.materiaisWrapper}>
+              <h2></h2>
+              <div className={styles.materiaisContainer}>
+                {posts.map((post) => {
+                  return <div className={styles.material}></div>;
+                })}
+              </div>
+            </div>
+            <div className={styles.materiaisImagem}></div>
+            <div className={styles.videosDivider}>
+              <h2></h2>
+            </div>
+            <div className={styles.videosContainer}>
+              {posts.map((post) => {
+                return <div className={styles.material}></div>;
+              })}
+            </div>
+          </section>
+
+          <section className={styles.vantagens}></section>
         </main>
         <Footer />
       </div>
