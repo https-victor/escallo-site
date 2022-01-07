@@ -106,6 +106,21 @@
     },
     "blog_subtitulo": {
       "type": "string"
+    },
+    "materiais_titulo": {
+      "type": "string"
+    },
+    "materiais_videos": {
+      "type": "string"
+    },
+    "materiais_image": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos"
+      ],
+      "type": "media",
+      "multiple": false
     }
   }
 }

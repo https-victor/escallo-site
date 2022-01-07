@@ -28,9 +28,11 @@ const schema = yup.object().shape({
 });
 export default function Home(props) {
   console.log(props);
-  const segmentos = formatStrapiArray(props.segmentos);
-  const posts = formatStrapiArray(props.posts);
-  const banners = formatStrapiArray(props.banners);
+  const segmentos = props.segmentos;
+  const posts = props.posts.slice(0, 3);
+  const banners = props.banners;
+  const materiais = props.materiais.slice(0, 4);
+  const videos = props.materiais.slice(0, 2);
   const logoImage = formatStrapiObject(props.logo);
 
   const demoImage = formatStrapiObject(props.demo_image);
@@ -38,6 +40,8 @@ export default function Home(props) {
 
   const resultadosHeroHappy = formatStrapiObject(props.resultados_hero_happy);
   const resultadosArrow = formatStrapiObject(props.resultados_arrow);
+
+  const materiaisImage = formatStrapiObject(props.materiais_image);
 
   return (
     <AppContext.Provider
@@ -244,19 +248,43 @@ export default function Home(props) {
 
           <section className={styles.materiais}>
             <div className={styles.materiaisWrapper}>
-              <h2></h2>
-              <div className={styles.materiaisContainer}>
-                {posts.map((post) => {
-                  return <div className={styles.material}></div>;
-                })}
+              <div className={styles.materiaisDiv}>
+                <h2>{props.materiais_titulo}</h2>
+                <div className={styles.materiaisContainer}>
+                  {materiais.map((material) => {
+                    const materialLogo = formatStrapiObject(material.logo);
+                    console.log(material);
+                    return (
+                      <div className={styles.material}>
+                        <div className={styles.materialDescription}>
+                          <h3>{material.titulo}</h3>
+                          <span></span>
+                          <div className={styles.materialFooter}></div>
+                        </div>
+                        <img
+                          src={
+                            process.env.NEXT_PUBLIC_STRAPI_URL +
+                            materialLogo.url
+                          }
+                        />
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+              <div className={styles.materiaisImagem}>
+                <img
+                  src={process.env.NEXT_PUBLIC_STRAPI_URL + materiaisImage.url}
+                />
               </div>
             </div>
-            <div className={styles.materiaisImagem}></div>
             <div className={styles.videosDivider}>
-              <h2></h2>
+              <span></span>
+              <h2>{props.materiais_videos}</h2>
+              <span></span>
             </div>
             <div className={styles.videosContainer}>
-              {posts.map((post) => {
+              {videos.map((video) => {
                 return <div className={styles.material}></div>;
               })}
             </div>
@@ -282,6 +310,7 @@ export async function getStaticProps() {
         "resultados_arrow",
         "segmentos_cta",
         "demo_hero_image",
+        "materiais_image",
       ],
     },
     {
@@ -344,8 +373,33 @@ export async function getStaticProps() {
     process.env.NEXT_PUBLIC_STRAPI_URL + "/api/posts?" + postsQuery
   );
   const posts = await postsRes.json();
+
+  const materiaisQuery = qs.stringify(
+    {
+      populate: ["logo", "arquivo", "capa", "preview"],
+    },
+    {
+      encodeValuesOnly: true,
+    }
+  );
+  const materiaisRes = await fetch(
+    process.env.NEXT_PUBLIC_STRAPI_URL + "/api/materiais?" + materiaisQuery
+  );
+  const materiais = await materiaisRes.json();
+
+  const videosRes = await fetch(
+    process.env.NEXT_PUBLIC_STRAPI_URL + "/api/videos"
+  );
+  const videos = await videosRes.json();
   return {
-    props: { ...homepageData.data.attributes, banners, segmentos, posts },
+    props: {
+      ...homepageData.data.attributes,
+      banners: formatStrapiArray(banners),
+      segmentos: formatStrapiArray(segmentos),
+      posts: formatStrapiArray(posts),
+      materiais: formatStrapiArray(materiais),
+      videos: formatStrapiArray(videos),
+    },
     revalidate: 1,
   };
 }

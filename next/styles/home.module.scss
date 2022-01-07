@@ -10,7 +10,6 @@
 }
 
 .demo {
-  height: variables.$folder-height;
   min-height: variables.$min-folder-height;
   padding: 2rem 5%;
   padding-bottom: 0;
@@ -299,6 +298,82 @@
     h2 {
       @include h2;
       margin-top: 0;
+    }
+  }
+}
+
+.materiais {
+  height: variables.$folder-height;
+  min-height: variables.$min-folder-height;
+  padding: 2rem 5%;
+  background: white;
+  .materiaisDiv {
+    display: flex;
+    flex-direction: column;
+  }
+  .materiaisContainer {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    @media (max-width: 600px) {
+      grid-template-columns: 1fr;
+    }
+    grid-template-rows: 150px;
+    row-gap: 1.5rem;
+    column-gap: 2.5rem;
+    .material {
+      padding: 20px;
+      border-radius: 20px;
+      display: flex;
+      justify-content: space-between;
+      .materialDescription {
+        display: flex;
+        flex-direction: column;
+        width: 50%;
+        color: white;
+        h3 {
+          font-size: 1.25rem;
+        }
+      }
+      img {
+        height: 100%;
+        object-fit: contain;
+      }
+      &:nth-child(1) {
+        background-color: pink;
+      }
+      &:nth-child(2) {
+        background-color: green;
+      }
+      &:nth-child(3) {
+        background-color: purple;
+      }
+      &:nth-child(4) {
+        background-color: orange;
+      }
+    }
+  }
+  .materiaisWrapper {
+    display: flex;
+  }
+  h2 {
+    @include h2;
+    font-size: 2.5em;
+    color: colors.$dark-color;
+  }
+  .videosDivider {
+    display: flex;
+    align-items: center;
+    margin: 2rem 0;
+    h2 {
+      @include h2;
+      color: colors.$dark-color;
+      font-size: 2.5em;
+      margin: 0 2rem;
+    }
+    span {
+      height: 3px;
+      flex: 1;
+      background-color: colors.$dark-color;
     }
   }
 }

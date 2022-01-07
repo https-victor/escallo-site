@@ -4,7 +4,8 @@
   "info": {
     "singularName": "video",
     "pluralName": "videos",
-    "displayName": "Vídeos"
+    "displayName": "Vídeos",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -17,12 +18,8 @@
     "descricao": {
       "type": "text"
     },
-    "video": {
-      "allowedTypes": [
-        "videos"
-      ],
-      "type": "media",
-      "multiple": false
+    "url": {
+      "type": "string"
     }
   }
 }
