@@ -18,7 +18,7 @@
     "descricao": {
       "type": "text"
     },
-    "url": {
+    "video_id": {
       "type": "string"
     }
   }

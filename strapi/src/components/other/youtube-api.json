@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_other_youtube_apis",
+  "info": {
+    "displayName": "Youtube API",
+    "icon": "arrow-circle-up"
+  },
+  "options": {},
+  "attributes": {
+    "key": {
+      "type": "string"
+    },
+    "channel_id": {
+      "type": "string"
+    }
+  }
+}

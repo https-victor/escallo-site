@@ -99,7 +99,7 @@
       text-align: center;
       color: colors.$dark-color;
       width: 35%;
-      min-width: 480px;
+      min-width: 280px;
       flex: 1;
     }
   }
@@ -108,4 +108,18 @@
   height: 100%;
   width: 100%;
   background-color: white;
+
+  @media (max-width: 750px) {
+    &.layout_1 {
+      .topSection {
+        flex-direction: column;
+        .leftSection {
+          width: 100%;
+        }
+        .rightSection {
+          display: none;
+        }
+      }
+    }
+  }
 }

@@ -114,13 +114,63 @@
       "type": "string"
     },
     "materiais_image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
       "allowedTypes": [
         "images",
         "files",
         "videos"
+      ]
+    },
+    "futurotec_logo": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "vantagem_titulo": {
+      "type": "string"
+    },
+    "vantagem_cta": {
+      "type": "component",
+      "repeatable": false,
+      "component": "button.button"
+    },
+    "vantagens": {
+      "type": "component",
+      "repeatable": true,
+      "component": "button.icon-text-button"
+    },
+    "escallo_logo": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "youtube_api": {
+      "type": "component",
+      "repeatable": false,
+      "component": "other.youtube-api"
+    },
+    "escallo_logo_small": {
+      "allowedTypes": [
+        "images"
       ],
       "type": "media",
       "multiple": false
+    },
+    "redes_sociais": {
+      "type": "component",
+      "repeatable": true,
+      "component": "button.icon-button"
+    },
+    "endereco": {
+      "type": "string"
     }
   }
 }

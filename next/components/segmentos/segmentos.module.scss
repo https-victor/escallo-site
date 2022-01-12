@@ -26,6 +26,7 @@
       display: flex;
       justify-content: center;
       width: 100%;
+
       & .active {
         border-color: colors.$active-text-color;
       }
@@ -60,6 +61,14 @@
           color: colors.$active-text-color;
         }
       }
+      @media (max-width: 500px) {
+        button {
+          display: none;
+        }
+        & .active {
+          display: flex;
+        }
+      }
     }
     & button:last-of-type {
       margin-right: 0;
@@ -71,6 +80,9 @@
         width: 40%;
         min-width: 400px;
         position: relative;
+        @media (max-width: 500px) {
+          min-width: 300px;
+        }
         .tagWrapper {
           position: absolute;
           bottom: -17px;
@@ -119,11 +131,15 @@
         font-weight: bold;
       }
       :global(.swiper-slide) {
-        padding: 3.5rem 5%;
+        padding: 1.5rem 5%;
         display: flex;
         justify-content: space-around;
         align-items: center;
         gap: 2rem;
+        @media (max-width: 1200px) {
+          flex-direction: column-reverse;
+          justify-content: center;
+        }
       }
     }
   }

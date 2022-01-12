@@ -11,9 +11,9 @@ import parseToHtml from "html-react-parser";
 import { Formik } from "formik";
 import * as yup from "yup";
 import Form from "react-bootstrap/Form";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import Button from "react-bootstrap/Button";
+import SwiperCore, { Autoplay, Navigation } from "swiper";
+import { Swiper, SwiperSlide } from "swiper/react";
+import ReactPlayer from "react-player";
 
 const schema = yup.object().shape({
   nome: yup.string().required("Informe o seu nome"),
@@ -28,11 +28,13 @@ const schema = yup.object().shape({
 });
 export default function Home(props) {
   console.log(props);
+  const escalloLogo = formatStrapiObject(props.escallo_logo);
+  const escalloLogoSmall = formatStrapiObject(props.escallo_logo_small);
   const segmentos = props.segmentos;
   const posts = props.posts.slice(0, 3);
   const banners = props.banners;
   const materiais = props.materiais.slice(0, 4);
-  const videos = props.materiais.slice(0, 2);
+  const videos = props.videos;
   const logoImage = formatStrapiObject(props.logo);
 
   const demoImage = formatStrapiObject(props.demo_image);
@@ -41,6 +43,7 @@ export default function Home(props) {
   const resultadosHeroHappy = formatStrapiObject(props.resultados_hero_happy);
   const resultadosArrow = formatStrapiObject(props.resultados_arrow);
 
+  const futurotecLogo = formatStrapiObject(props.futurotec_logo);
   const materiaisImage = formatStrapiObject(props.materiais_image);
 
   return (
@@ -52,7 +55,7 @@ export default function Home(props) {
         segmentos_cta: props.segmentos_cta,
       }}
     >
-      <div>
+      <div className={styles.page}>
         <Head>
           <title>{props.titulo}</title>
           <meta name="description" content={props.description} />
@@ -65,7 +68,7 @@ export default function Home(props) {
           />
         </Head>
 
-        <Header />
+        <Header menu={props.menu} escalloLogo={escalloLogo} />
 
         <main className={styles.main}>
           <Banners data={banners} />
@@ -113,6 +116,7 @@ export default function Home(props) {
                         src={process.env.NEXT_PUBLIC_STRAPI_URL + icon.url}
                       />
                       <img
+                        className={styles.arrowImg}
                         src={
                           process.env.NEXT_PUBLIC_STRAPI_URL +
                           resultadosArrow.url
@@ -120,6 +124,7 @@ export default function Home(props) {
                       />
                       <p className={styles.number}>{resultado.numero}</p>
                       <img
+                        className={styles.arrowImg}
                         src={
                           process.env.NEXT_PUBLIC_STRAPI_URL +
                           resultadosArrow.url
@@ -162,9 +167,7 @@ export default function Home(props) {
                 </h3>
                 <Formik
                   validationSchema={schema}
-                  onSubmit={(values) => {
-                    console.log(values);
-                  }}
+                  onSubmit={(values) => {}}
                   initialValues={{
                     nome: "",
                     email: "",
@@ -253,20 +256,29 @@ export default function Home(props) {
                 <div className={styles.materiaisContainer}>
                   {materiais.map((material) => {
                     const materialLogo = formatStrapiObject(material.logo);
-                    console.log(material);
                     return (
-                      <div className={styles.material}>
+                      <div key={material.id} className={styles.material}>
                         <div className={styles.materialDescription}>
-                          <h3>{material.titulo}</h3>
-                          <span></span>
-                          <div className={styles.materialFooter}></div>
+                          <div className={styles.materialTitle}>
+                            <h3>{material.titulo}</h3>
+                            <span></span>
+                          </div>
+                          <img
+                            src={
+                              process.env.NEXT_PUBLIC_STRAPI_URL +
+                              materialLogo.url
+                            }
+                          />
                         </div>
-                        <img
-                          src={
-                            process.env.NEXT_PUBLIC_STRAPI_URL +
-                            materialLogo.url
-                          }
-                        />
+                        <div className={styles.materialFooter}>
+                          <img
+                            src={
+                              process.env.NEXT_PUBLIC_STRAPI_URL +
+                              futurotecLogo.url
+                            }
+                          />
+                          <p>E-BOOK GRÁTIS</p>
+                        </div>
                       </div>
                     );
                   })}
@@ -284,13 +296,57 @@ export default function Home(props) {
               <span></span>
             </div>
             <div className={styles.videosContainer}>
-              {videos.map((video) => {
-                return <div className={styles.material}></div>;
-              })}
+              <Swiper
+                speed={650}
+                simulateTouch={false}
+                navigation={true}
+                loop={false}
+                autoplay={{ delay: 4000 }}
+              >
+                {props.videos.map((video, idx) => {
+                  return (
+                    <SwiperSlide key={video.id.videoId}>
+                      <div className={styles.videoPlayerContainer}>
+                        <div className={styles.videoWrapper}>
+                          <img src={video.snippet.thumbnails.high.url} />
+                        </div>
+                        <div className={styles.videoDescricao}>
+                          <h3>{video.snippet.title}</h3>
+                          <p>{video.snippet.description}</p>
+                        </div>
+                      </div>
+                    </SwiperSlide>
+                  );
+                })}
+              </Swiper>
             </div>
           </section>
 
-          <section className={styles.vantagens}></section>
+          <section className={styles.vantagens}>
+            <h2>{props.vantagem_titulo}</h2>
+            <div className={styles.vantagensContainer}>
+              {props.vantagens.map((vantagem) => {
+                const imagem = formatStrapiObject(vantagem.image);
+                return (
+                  <div key={vantagem.id} className={styles.vantagem}>
+                    <div className={styles.vantagemWrapper}>
+                      <img
+                        src={process.env.NEXT_PUBLIC_STRAPI_URL + imagem.url}
+                      />
+                      <p>{vantagem.texto}</p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+            <a
+              href={props.vantagem_cta.link}
+              target={"_blank"}
+              className={styles.vantagemCta}
+            >
+              {props.vantagem_cta.texto}
+            </a>
+          </section>
         </main>
         <Footer />
       </div>
@@ -303,13 +359,20 @@ export async function getStaticProps() {
     {
       populate: [
         "demo_cta",
+        "vantagens.image",
         "logo",
+        "redes_sociais.icon",
+        "escallo_logo_small",
+        "escallo_logo",
         "demo_image",
+        "vantagem_cta",
+        "futurotec_logo",
         "resultados_hero_happy",
         "resultados.icon",
         "resultados_arrow",
         "segmentos_cta",
         "demo_hero_image",
+        "youtube_api",
         "materiais_image",
       ],
     },
@@ -322,7 +385,11 @@ export async function getStaticProps() {
     process.env.NEXT_PUBLIC_STRAPI_URL + "/api/homepage?" + homepageQuery
   );
   const homepageData = await homepageRes.json();
-
+  const youtubeApi = homepageData.data.attributes.youtube_api;
+  const youtubeResponse = await fetch(
+    `https://www.googleapis.com/youtube/v3/search?order=date&part=snippet&maxResults=5&channelId=${youtubeApi.channel_id}&key=${youtubeApi.key}`
+  );
+  const youtubeVideos = await youtubeResponse.json();
   const bannersQuery = qs.stringify(
     {
       populate: [
@@ -387,10 +454,19 @@ export async function getStaticProps() {
   );
   const materiais = await materiaisRes.json();
 
-  const videosRes = await fetch(
-    process.env.NEXT_PUBLIC_STRAPI_URL + "/api/videos"
+  const menuQuery = qs.stringify(
+    {
+      populate: ["link"],
+    },
+    {
+      encodeValuesOnly: true,
+    }
   );
-  const videos = await videosRes.json();
+  const menuRes = await fetch(
+    process.env.NEXT_PUBLIC_STRAPI_URL + "/api/menus?" + menuQuery
+  );
+  const menu = await menuRes.json();
+
   return {
     props: {
       ...homepageData.data.attributes,
@@ -398,7 +474,8 @@ export async function getStaticProps() {
       segmentos: formatStrapiArray(segmentos),
       posts: formatStrapiArray(posts),
       materiais: formatStrapiArray(materiais),
-      videos: formatStrapiArray(videos),
+      videos: youtubeVideos.items,
+      menu: formatStrapiArray(menu),
     },
     revalidate: 1,
   };

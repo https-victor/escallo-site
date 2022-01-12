@@ -86,7 +86,11 @@ const Segmentos = ({ data }) => {
                   <ReactPlayer
                     className="react-player"
                     controls={true}
-                    url={process.env.NEXT_PUBLIC_STRAPI_URL + video.url}
+                    url={
+                      (video.provider === "local"
+                        ? process.env.NEXT_PUBLIC_STRAPI_URL
+                        : "") + video.url
+                    }
                     muted={!isActive}
                     width="100%"
                     height="100%"
