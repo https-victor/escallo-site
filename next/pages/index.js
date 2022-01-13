@@ -34,7 +34,6 @@ export default function Home(props) {
   const posts = props.posts.slice(0, 3);
   const banners = props.banners;
   const materiais = props.materiais.slice(0, 4);
-  const videos = props.videos;
   const logoImage = formatStrapiObject(props.logo);
 
   const demoImage = formatStrapiObject(props.demo_image);
@@ -52,6 +51,12 @@ export default function Home(props) {
         logoImage,
         subtitulo_logo: props.subtitulo_logo,
         segmentos_titulo: props.segmentos_titulo,
+        escalloLogo,
+        menu: props.menu,
+        escalloLogoSmall,
+        redesSociais: props.redes_sociais,
+        futurotecLogo,
+        endereco: props.endereco,
         segmentos_cta: props.segmentos_cta,
       }}
     >
@@ -68,7 +73,7 @@ export default function Home(props) {
           />
         </Head>
 
-        <Header menu={props.menu} escalloLogo={escalloLogo} />
+        <Header />
 
         <main className={styles.main}>
           <Banners data={banners} />
@@ -457,6 +462,7 @@ export async function getStaticProps() {
   const menuQuery = qs.stringify(
     {
       populate: ["link"],
+      sort: ["order:asc"],
     },
     {
       encodeValuesOnly: true,

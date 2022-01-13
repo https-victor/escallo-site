@@ -27,6 +27,12 @@
     "externo": {
       "type": "boolean",
       "default": true
+    },
+    "order": {
+      "type": "integer",
+      "required": true,
+      "unique": true,
+      "min": 1
     }
   }
 }

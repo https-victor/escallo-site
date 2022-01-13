@@ -1,0 +1,40 @@
+@use "styles/colors";
+@use "styles/variables";
+.header {
+  height: variables.$header-height;
+  background-color: colors.$dark-color;
+  padding: 8px 5%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  :global(.nav-link) {
+    color: white;
+    padding: 0.25rem 1rem;
+    &:hover {
+      color: #0d6efd;
+    }
+  }
+  :global(.dropdown-menu) {
+    margin-top: 5px;
+  }
+  :global(.dropdown-item) {
+    color: #212529;
+    &:hover,
+    &:focus,
+    &:global(.active):hover,
+    &:global(.active):focus {
+      color: #0d6efd;
+      background-color: #e9ecef;
+    }
+    &:global(.active) {
+      background-color: transparent;
+    }
+  }
+  & > a {
+    height: 100%;
+
+    img {
+      height: 100%;
+    }
+  }
+}
