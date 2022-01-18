@@ -11,9 +11,11 @@ import parseToHtml from "html-react-parser";
 import { Formik } from "formik";
 import * as yup from "yup";
 import Form from "react-bootstrap/Form";
+import Modal from "react-bootstrap/Modal";
 import SwiperCore, { Autoplay, Navigation } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import ReactPlayer from "react-player";
+import { useState } from "react";
 
 const schema = yup.object().shape({
   nome: yup.string().required("Informe o seu nome"),
@@ -45,10 +47,22 @@ export default function Home(props) {
   const futurotecLogo = formatStrapiObject(props.futurotec_logo);
   const materiaisImage = formatStrapiObject(props.materiais_image);
 
+  const [modal, setModal] = useState(false);
+
+  const handleModalClose = () => setModal(false);
+  const handleModalShow = () => setModal(true);
+
+  const [selectedVideo, setSelectedVideo] = useState(null);
+
+  const handleVideoModalClose = () => setSelectedVideo(null);
+  const handleVideoModalShow = (video) => setSelectedVideo(video);
+
+  console.log(selectedVideo);
   return (
     <AppContext.Provider
       value={{
         logoImage,
+        onClickLigueMe: handleModalShow,
         subtitulo_logo: props.subtitulo_logo,
         segmentos_titulo: props.segmentos_titulo,
         escalloLogo,
@@ -78,7 +92,10 @@ export default function Home(props) {
         <main className={styles.main}>
           <Banners data={banners} />
 
-          <Segmentos data={segmentos} />
+          <Segmentos
+            data={segmentos}
+            handleVideoModalShow={handleVideoModalShow}
+          />
 
           <section className={styles.demo}>
             <div className={styles.container}>
@@ -91,13 +108,9 @@ export default function Home(props) {
               <img
                 src={process.env.NEXT_PUBLIC_STRAPI_URL + demoHeroImage.url}
               />
-              <a
-                href={props.demo_cta.link}
-                target={"_blank"}
-                className={styles.cta}
-              >
+              <div onClick={handleModalShow} className={styles.cta}>
                 {props.demo_cta.texto}
-              </a>
+              </div>
             </div>
           </section>
 
@@ -163,6 +176,24 @@ export default function Home(props) {
                     </div>
                   );
                 })}
+                {/* {posts.map((post) => {
+                  // const cover = formatStrapiObject(post.cover);
+                  return (
+                    <a
+                      target="_blank"
+                      href={post.link}
+                      key={post.id}
+                      className={styles.artigo}
+                    >
+                      <img
+                        src={post._embedded["wp:featuredmedia"][0].source_url}
+                      />
+                      <div className={styles.descriptionWrapper}>
+                        <p>{post.title.rendered}</p>
+                      </div>
+                    </a>
+                  );
+                })} */}
               </div>
             </div>
             <div className={styles.newsletter}>
@@ -312,7 +343,10 @@ export default function Home(props) {
                   return (
                     <SwiperSlide key={video.id.videoId}>
                       <div className={styles.videoPlayerContainer}>
-                        <div className={styles.videoWrapper}>
+                        <div
+                          className={styles.videoWrapper}
+                          onClick={() => handleVideoModalShow(video)}
+                        >
                           <img src={video.snippet.thumbnails.high.url} />
                         </div>
                         <div className={styles.videoDescricao}>
@@ -354,6 +388,58 @@ export default function Home(props) {
           </section>
         </main>
         <Footer />
+
+        <Modal
+          show={Boolean(selectedVideo)}
+          onHide={handleVideoModalClose}
+          fullscreen
+          scrollable={false}
+          className={styles.videoModal}
+          // backdrop="static"
+          keyboard={false}
+        >
+          <Modal.Header closeButton></Modal.Header>
+          <Modal.Body>
+            {selectedVideo && (
+              <ReactPlayer
+                className="react-player"
+                controls={true}
+                playing={true}
+                url={
+                  selectedVideo.provider
+                    ? (selectedVideo.provider === "local"
+                        ? process.env.NEXT_PUBLIC_STRAPI_URL
+                        : "") + selectedVideo.url
+                    : "www.youtube.com/watch?v=" + selectedVideo.id.videoId
+                }
+                width="100%"
+                height="100%"
+              />
+            )}
+          </Modal.Body>
+        </Modal>
+
+        <Modal
+          show={modal}
+          onHide={handleModalClose}
+          size="lg"
+          className={styles.modal}
+          centered
+          backdrop="static"
+          keyboard={false}
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>Me ligue</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <iframe
+              src="https://www2.futurotec.com.br/meligue"
+              title="Me ligue"
+              width={"100%"}
+              height={"100%"}
+            />
+          </Modal.Body>
+        </Modal>
       </div>
     </AppContext.Provider>
   );
@@ -446,6 +532,17 @@ export async function getStaticProps() {
   );
   const posts = await postsRes.json();
 
+  // const postsRes = await fetch(
+  //   "https://blog.escallo.com.br/wp-json/wp/v2/posts?_embed&per_page=3"
+  // );
+  // const posts = await postsRes.json();
+
+  // console.log(posts);
+  // post.id
+  // post.cover.url
+  // post.title
+  // post.url
+
   const materiaisQuery = qs.stringify(
     {
       populate: ["logo", "arquivo", "capa", "preview"],
@@ -478,6 +575,7 @@ export async function getStaticProps() {
       ...homepageData.data.attributes,
       banners: formatStrapiArray(banners),
       segmentos: formatStrapiArray(segmentos),
+      // posts: posts,
       posts: formatStrapiArray(posts),
       materiais: formatStrapiArray(materiais),
       videos: youtubeVideos.items,

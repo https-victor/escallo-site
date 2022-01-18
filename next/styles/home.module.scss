@@ -596,6 +596,7 @@
           }
         }
         .videoWrapper {
+          cursor: pointer;
           position: relative;
           border: 2px solid colors.$dark-color;
           padding: 10px;
@@ -696,4 +697,39 @@
     align-self: CENTER;
   }
   padding: 2rem 5%;
+}
+
+.videoModal {
+  :global(.modal-dialog) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    :global(.modal-content) {
+      aspect-ratio: 16/9;
+      width: auto;
+      height: calc(60vmin + 49px);
+      max-width: initial;
+      min-height: auto;
+      :global(.modal-body) {
+        :global(.modal-header) {
+          border-top-left-radius: 10px;
+          border-top-right-radius: 10px;
+        }
+        position: relative;
+        padding: 0;
+        overflow-y: hidden;
+        :global(.react-player) {
+          display: flex;
+        }
+      }
+    }
+  }
+}
+.modal {
+  :global(.modal-dialog) {
+    height: 65vh;
+    :global(.modal-content) {
+      height: 100%;
+    }
+  }
 }

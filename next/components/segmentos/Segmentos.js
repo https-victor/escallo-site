@@ -11,12 +11,13 @@ import "swiper/css/navigation";
 import "swiper/css/autoplay";
 import { formatStrapiObject } from "../../functions/formatters";
 import SwiperCore, { Autoplay, Navigation } from "swiper";
+import Image from "../image/Image";
 
 // install Swiper modules
 
 SwiperCore.use([Autoplay, Navigation]);
 
-const Segmentos = ({ data }) => {
+const Segmentos = ({ data, handleVideoModalShow }) => {
   const { segmentos_titulo, segmentos_cta } = useContext(AppContext);
   const [swiper, setSwiper] = useState(undefined);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -24,7 +25,7 @@ const Segmentos = ({ data }) => {
     setActiveIndex(newSwiper.activeIndex);
   }
   return (
-    <section className={styles.segmentos}>
+    <section id="esc-segmentos" className={styles.segmentos}>
       <h2>{segmentos_titulo}</h2>
       <div className={styles.sliderContainer}>
         <div className={styles.buttons}>
@@ -44,11 +45,19 @@ const Segmentos = ({ data }) => {
                 key={segmento.id}
               >
                 {isActive ? (
-                  <img
+                  <Image
+                    layout={"fill"}
+                    width={50}
+                    height={50}
                     src={process.env.NEXT_PUBLIC_STRAPI_URL + activeImage.url}
                   />
                 ) : (
-                  <img src={process.env.NEXT_PUBLIC_STRAPI_URL + image.url} />
+                  <Image
+                    layout={"fill"}
+                    width={50}
+                    height={50}
+                    src={process.env.NEXT_PUBLIC_STRAPI_URL + image.url}
+                  />
                 )}
                 <p
                   className={classNames(
@@ -72,32 +81,40 @@ const Segmentos = ({ data }) => {
           style={{ width: "100%" }}
           autoplay={{
             delay: 4000,
+            disableOnInteraction: true,
+            pauseOnMouseEnter: true,
           }}
         >
           {data.map((segmento, idx) => {
             const isActive = Boolean(activeIndex === idx);
             const vantagens = parseToHtml(segmento.vantagens);
             const video = formatStrapiObject(segmento.video);
+            console.log(video);
             const logo = formatStrapiObject(segmento.logo);
             return (
               <SwiperSlide key={segmento.id}>
                 <div className={styles.description}>{vantagens}</div>
-                <div className={styles.videoWrapper}>
+                <div
+                  className={styles.videoWrapper}
+                  onClick={() => handleVideoModalShow(video)}
+                >
                   <ReactPlayer
                     className="react-player"
-                    controls={true}
+                    controls={false}
+                    playing={false}
                     url={
                       (video.provider === "local"
                         ? process.env.NEXT_PUBLIC_STRAPI_URL
                         : "") + video.url
                     }
-                    muted={!isActive}
                     width="100%"
                     height="100%"
                   />
                   <div className={styles.tagWrapper}>
                     <div className={styles.tag}>
-                      <img
+                      <Image
+                        layout={"fill"}
+                        height={25}
                         src={process.env.NEXT_PUBLIC_STRAPI_URL + logo.url}
                       />
                     </div>

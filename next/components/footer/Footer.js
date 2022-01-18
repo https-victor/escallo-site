@@ -14,7 +14,6 @@ const Footer = () => {
         <img src={process.env.NEXT_PUBLIC_STRAPI_URL + escalloLogoSmall.url} />
         <div className={styles.menu}>
           {menu.map((item) => {
-            console.log(item);
             if (item.link.length > 0) {
               return (
                 <div key={item.id}>
@@ -33,7 +32,6 @@ const Footer = () => {
                 </div>
               );
             }
-            return undefined;
           })}
         </div>
         <div className={styles.redesSociais}>
@@ -42,7 +40,7 @@ const Footer = () => {
             {redesSociais.map((item) => {
               const icon = formatStrapiObject(item.icon);
               return (
-                <a key={item.key} href={item.url} target="_blank">
+                <a key={item.id} href={item.url} target="_blank">
                   <img src={process.env.NEXT_PUBLIC_STRAPI_URL + icon.url} />
                 </a>
               );

@@ -15,10 +15,6 @@
     flex-direction: column;
     .background {
       position: absolute;
-      height: 100%;
-      width: 100%;
-      object-fit: cover;
-      object-position: bottom;
       z-index: -1;
     }
     .topSection {
@@ -32,10 +28,11 @@
         flex-direction: column;
         height: 100%;
         width: 50%;
-        & > img {
+        .logo {
           min-width: 250px;
           max-width: 70%;
           max-height: 80%;
+          position: relative;
         }
         .subtitulo {
           margin-top: 1.5em;
@@ -48,14 +45,8 @@
           }
         }
         .socialMedia {
-          img {
-            margin-right: 1em;
-            width: 30px;
-            height: 30px;
-          }
-          & img:last-of-type {
-            margin-right: 0;
-          }
+          display: flex;
+          gap: 1em;
         }
       }
       .rightSection {

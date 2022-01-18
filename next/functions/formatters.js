@@ -1,9 +1,18 @@
 export function formatStrapiObject(data) {
-  return { id: data.data.id, ...data.data.attributes };
+  if (data && data.data) {
+    return { id: data.data.id, ...data.data.attributes };
+  }
+  return {};
 }
 export function formatStrapiItem(data) {
-  return { id: data.id, ...data.attributes };
+  if (data) {
+    return { id: data.id, ...data.attributes };
+  }
+  return {};
 }
 export function formatStrapiArray(array) {
-  return array.data.map((data) => formatStrapiItem(data));
+  if (array.data) {
+    return array.data.map((data) => formatStrapiItem(data));
+  }
+  return [];
 }

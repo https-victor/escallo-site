@@ -8,7 +8,8 @@ import "swiper/css";
 import "swiper/css/autoplay";
 import { formatStrapiObject } from "../../functions/formatters";
 import SwiperCore, { Autoplay } from "swiper";
-
+import Image from "../image/Image";
+import NextImage from "next/image";
 // install Swiper modules
 SwiperCore.use([Autoplay]);
 const Banner = ({
@@ -20,7 +21,7 @@ const Banner = ({
   cta,
   background,
 }) => {
-  const { logoImage, subtitulo_logo } = useContext(AppContext);
+  const { logoImage, subtitulo_logo, onClickLigueMe } = useContext(AppContext);
   const backgroundImage = background.background_image
     ? formatStrapiObject(background.background_image)
     : background.background_image;
@@ -35,16 +36,32 @@ const Banner = ({
           }}
         >
           {backgroundImage && (
-            <img
-              className={styles.background}
-              alt={backgroundImage.caption}
-              src={process.env.NEXT_PUBLIC_STRAPI_URL + backgroundImage.url}
-            />
+            <div className={styles.background}>
+              <Image
+                priority="true"
+                layout={"fill"}
+                unsized="true"
+                objectFit="cover"
+                width="100%"
+                height="100%"
+                objectPosition="bottom"
+                alt={backgroundImage.caption}
+                src={process.env.NEXT_PUBLIC_STRAPI_URL + backgroundImage.url}
+              />
+            </div>
           )}
           <div className={styles.topSection}>
             <div className={styles.leftSection}>
-              <img
-                className={styles.logo}
+              <Image
+                priority="true"
+                layout={"fill"}
+                unsized="true"
+                position="relative"
+                maxHeight="80%"
+                maxWidth="70%"
+                width="100%"
+                minWidth="250px"
+                wrapperClassName={styles.logo}
                 alt={logoImage.caption}
                 src={process.env.NEXT_PUBLIC_STRAPI_URL + logoImage.url}
               />
@@ -53,7 +70,12 @@ const Banner = ({
                 {social_media.map((item) => {
                   const image = formatStrapiObject(item.icon);
                   return (
-                    <img
+                    <Image
+                      priority="true"
+                      className={styles.socialMediaImg}
+                      layout={"fill"}
+                      width={30}
+                      height={30}
                       src={process.env.NEXT_PUBLIC_STRAPI_URL + image.url}
                       key={item.id}
                     />
@@ -62,7 +84,16 @@ const Banner = ({
               </div>
             </div>
             <div className={styles.rightSection}>
-              <img
+              {/* <img */}
+              <Image
+                priority="true"
+                layout={"fill"}
+                unsized="true"
+                position="relative"
+                maxHeight="80%"
+                minHeight="350px"
+                height="100%"
+                objectPosition="bottom right"
                 className={styles.heroImage}
                 alt={heroImage.caption}
                 src={process.env.NEXT_PUBLIC_STRAPI_URL + heroImage.url}
@@ -73,14 +104,13 @@ const Banner = ({
             <div className={styles.wrapper}>
               <div className={styles.line}></div>
               {cta.map((cta) => (
-                <a
-                  href={cta.link}
+                <div
+                  onClick={onClickLigueMe}
                   key={cta.id}
-                  target="_blank"
                   className={styles.cta}
                 >
                   {cta.texto}
-                </a>
+                </div>
               ))}
               <div className={styles.line}></div>
             </div>
