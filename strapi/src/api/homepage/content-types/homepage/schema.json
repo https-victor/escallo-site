@@ -158,11 +158,12 @@
       "component": "other.youtube-api"
     },
     "escallo_logo_small": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
       "allowedTypes": [
         "images"
-      ],
-      "type": "media",
-      "multiple": false
+      ]
     },
     "redes_sociais": {
       "type": "component",

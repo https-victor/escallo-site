@@ -10,6 +10,7 @@ import { formatStrapiObject } from "../../functions/formatters";
 import SwiperCore, { Autoplay } from "swiper";
 import Image from "../image/Image";
 import NextImage from "next/image";
+import useMenuFunctions from "../../hooks/useMenuFunctions";
 // install Swiper modules
 SwiperCore.use([Autoplay]);
 const Banner = ({
@@ -22,6 +23,8 @@ const Banner = ({
   background,
 }) => {
   const { logoImage, subtitulo_logo, onClickLigueMe } = useContext(AppContext);
+  const getFunctions = useMenuFunctions();
+  const isAction = Boolean(cta.action !== "nenhum");
   const backgroundImage = background.background_image
     ? formatStrapiObject(background.background_image)
     : background.background_image;
@@ -103,15 +106,24 @@ const Banner = ({
           <div className={styles.divider}>
             <div className={styles.wrapper}>
               <div className={styles.line}></div>
-              {cta.map((cta) => (
-                <div
-                  onClick={onClickLigueMe}
-                  key={cta.id}
-                  className={styles.cta}
-                >
-                  {cta.texto}
-                </div>
-              ))}
+              {cta.map((cta) => {
+                if (isAction) {
+                  return (
+                    <div
+                      onClick={getFunctions(cta.action)}
+                      key={cta.id}
+                      className={styles.cta}
+                    >
+                      {cta.texto}
+                    </div>
+                  );
+                }
+                return (
+                  <a href={cta.link} target="_blank" className={styles.cta}>
+                    {cta.texto}
+                  </a>
+                );
+              })}
               <div className={styles.line}></div>
             </div>
           </div>

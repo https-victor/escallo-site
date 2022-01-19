@@ -1,6 +1,11 @@
 @use "styles/colors";
 @use "styles/variables";
 .header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  width: 100%;
   height: variables.$header-height;
   background-color: colors.$dark-color;
   padding: 8px 5%;
@@ -10,27 +15,30 @@
   :global(.nav-link) {
     color: white;
     padding: 0.25rem 1rem;
+    cursor: pointer;
     &:hover {
-      color: #0d6efd;
+      color: #b6fc07;
     }
   }
   :global(.dropdown-menu) {
     margin-top: 5px;
   }
   :global(.dropdown-item) {
+    cursor: pointer;
     color: #212529;
+
     &:hover,
     &:focus,
     &:global(.active):hover,
     &:global(.active):focus {
-      color: #0d6efd;
-      background-color: #e9ecef;
+      color: white;
+      background-color: #b6fc07;
     }
     &:global(.active) {
       background-color: transparent;
     }
   }
-  & > a {
+  & .logo {
     height: 100%;
 
     img {

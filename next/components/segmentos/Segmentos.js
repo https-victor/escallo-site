@@ -12,6 +12,7 @@ import "swiper/css/autoplay";
 import { formatStrapiObject } from "../../functions/formatters";
 import SwiperCore, { Autoplay, Navigation } from "swiper";
 import Image from "../image/Image";
+import Link from "next/link";
 
 // install Swiper modules
 
@@ -89,7 +90,6 @@ const Segmentos = ({ data, handleVideoModalShow }) => {
             const isActive = Boolean(activeIndex === idx);
             const vantagens = parseToHtml(segmento.vantagens);
             const video = formatStrapiObject(segmento.video);
-            console.log(video);
             const logo = formatStrapiObject(segmento.logo);
             return (
               <SwiperSlide key={segmento.id}>
@@ -124,9 +124,9 @@ const Segmentos = ({ data, handleVideoModalShow }) => {
             );
           })}
         </Swiper>
-        <a href={segmentos_cta.link} target={"_blank"} className={styles.cta}>
-          {segmentos_cta.texto}
-        </a>
+        <Link href={segmentos_cta.link} target={"_blank"}>
+          <a className={styles.cta}>{segmentos_cta.texto}</a>
+        </Link>
       </div>
     </section>
   );

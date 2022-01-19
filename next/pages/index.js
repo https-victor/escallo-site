@@ -13,21 +13,16 @@ import * as yup from "yup";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import SwiperCore, { Autoplay, Navigation } from "swiper";
+import classNames from "classnames";
 import { Swiper, SwiperSlide } from "swiper/react";
 import ReactPlayer from "react-player";
 import { useState } from "react";
+import Button from "react-bootstrap/Button";
+import Link from "next/link";
+import Contato from "../components/forms/Contato";
+import Newsletter from "../components/forms/Newsletter";
+import useModal from "../hooks/useModal";
 
-const schema = yup.object().shape({
-  nome: yup.string().required("Informe o seu nome"),
-  email: yup
-    .string()
-    .required("Informe o seu e-mail")
-    .email("O e-mail está em um formato incorreto"),
-  termos: yup
-    .bool()
-    .required()
-    .oneOf([true], "Você deve estar de acordo com a Política de Privacidade"),
-});
 export default function Home(props) {
   console.log(props);
   const escalloLogo = formatStrapiObject(props.escallo_logo);
@@ -47,27 +42,22 @@ export default function Home(props) {
   const futurotecLogo = formatStrapiObject(props.futurotec_logo);
   const materiaisImage = formatStrapiObject(props.materiais_image);
 
-  const [modal, setModal] = useState(false);
+  const meLigueModal = useModal();
 
-  const handleModalClose = () => setModal(false);
-  const handleModalShow = () => setModal(true);
+  const videoModal = useModal(null);
 
-  const [selectedVideo, setSelectedVideo] = useState(null);
-
-  const handleVideoModalClose = () => setSelectedVideo(null);
-  const handleVideoModalShow = (video) => setSelectedVideo(video);
-
-  console.log(selectedVideo);
+  const formModal = useModal();
   return (
     <AppContext.Provider
       value={{
         logoImage,
-        onClickLigueMe: handleModalShow,
         subtitulo_logo: props.subtitulo_logo,
         segmentos_titulo: props.segmentos_titulo,
         escalloLogo,
         menu: props.menu,
         escalloLogoSmall,
+        meLigueModal,
+        formModal,
         redesSociais: props.redes_sociais,
         futurotecLogo,
         endereco: props.endereco,
@@ -92,10 +82,7 @@ export default function Home(props) {
         <main className={styles.main}>
           <Banners data={banners} />
 
-          <Segmentos
-            data={segmentos}
-            handleVideoModalShow={handleVideoModalShow}
-          />
+          <Segmentos data={segmentos} />
 
           <section className={styles.demo}>
             <div className={styles.container}>
@@ -108,7 +95,7 @@ export default function Home(props) {
               <img
                 src={process.env.NEXT_PUBLIC_STRAPI_URL + demoHeroImage.url}
               />
-              <div onClick={handleModalShow} className={styles.cta}>
+              <div onClick={formModal.onShow} className={styles.cta}>
                 {props.demo_cta.texto}
               </div>
             </div>
@@ -201,86 +188,7 @@ export default function Home(props) {
                 <h3>
                   ASSINE NOSSA <strong>NEWSLETTER</strong>
                 </h3>
-                <Formik
-                  validationSchema={schema}
-                  onSubmit={(values) => {}}
-                  initialValues={{
-                    nome: "",
-                    email: "",
-                    termos: false,
-                  }}
-                >
-                  {({
-                    handleSubmit,
-                    handleChange,
-                    values,
-                    touched,
-                    errors,
-                  }) => {
-                    return (
-                      <Form
-                        className={styles.form}
-                        noValidate
-                        onSubmit={handleSubmit}
-                      >
-                        <Form.Group controlId="validationFormik01">
-                          <Form.Label>Nome</Form.Label>
-                          <Form.Control
-                            type="text"
-                            placeholder="Nome"
-                            name="nome"
-                            value={values.nome}
-                            onChange={handleChange}
-                            isInvalid={!!errors.nome}
-                            isValid={touched.nome && !errors.nome}
-                          />
-                          {touched.nome && errors.nome && (
-                            <Form.Control.Feedback
-                              type={errors.nome && "invalid"}
-                            >
-                              {errors.nome}
-                            </Form.Control.Feedback>
-                          )}
-                        </Form.Group>
-                        <Form.Group controlId="validationFormik02">
-                          <Form.Label>E-mail</Form.Label>
-                          <Form.Control
-                            type="email"
-                            name="email"
-                            value={values.email}
-                            placeholder="E-mail"
-                            onChange={handleChange}
-                            isInvalid={!!errors.email}
-                            isValid={touched.email && !errors.email}
-                          />
-
-                          {touched.email && errors.email && (
-                            <Form.Control.Feedback
-                              type={errors.email && "invalid"}
-                            >
-                              {errors.email}
-                            </Form.Control.Feedback>
-                          )}
-                        </Form.Group>
-                        <Form.Group>
-                          <Form.Check
-                            required
-                            name="termos"
-                            label="Li e concordo com a Política de Privacidade"
-                            onChange={handleChange}
-                            isInvalid={!!errors.termos}
-                            feedback={errors.termos}
-                            feedbackType="invalid"
-                            id="validationFormik0"
-                          />
-                        </Form.Group>
-                        <button className={styles.submit} type="submit">
-                          INSCREVER
-                        </button>
-                      </Form>
-                    );
-                  }}
-                </Formik>
+                <Newsletter onSubmitCB={() => {}} />
               </div>
             </div>
           </section>
@@ -345,7 +253,7 @@ export default function Home(props) {
                       <div className={styles.videoPlayerContainer}>
                         <div
                           className={styles.videoWrapper}
-                          onClick={() => handleVideoModalShow(video)}
+                          onClick={() => videoModal.onShow(video)}
                         >
                           <img src={video.snippet.thumbnails.high.url} />
                         </div>
@@ -378,39 +286,57 @@ export default function Home(props) {
                 );
               })}
             </div>
-            <a
-              href={props.vantagem_cta.link}
-              target={"_blank"}
-              className={styles.vantagemCta}
-            >
+            <div onClick={meLigueModal.onShow} className={styles.vantagemCta}>
               {props.vantagem_cta.texto}
-            </a>
+            </div>
           </section>
         </main>
         <Footer />
 
         <Modal
-          show={Boolean(selectedVideo)}
-          onHide={handleVideoModalClose}
+          show={formModal.state}
+          onHide={formModal.onHide}
+          onEscapeKeyDown={formModal.onHide}
+          backdrop="static"
+          size="lg"
+          scrollable={false}
+          className={styles.formModal}
+          centered
+          keyboard={true}
+        >
+          <Modal.Header closeButton>Entre em contato</Modal.Header>
+          <Modal.Body>
+            <Contato
+              onSubmitCB={() => {
+                formModal.onHide();
+              }}
+            />
+          </Modal.Body>
+        </Modal>
+
+        <Modal
+          show={Boolean(videoModal.state)}
+          onHide={videoModal.onHide}
+          onEscapeKeyDown={() => videoModal.onHide(null)}
           fullscreen
           scrollable={false}
           className={styles.videoModal}
-          // backdrop="static"
-          keyboard={false}
+          backdrop="static"
+          keyboard={true}
         >
           <Modal.Header closeButton></Modal.Header>
           <Modal.Body>
-            {selectedVideo && (
+            {videoModal.state && (
               <ReactPlayer
                 className="react-player"
                 controls={true}
                 playing={true}
                 url={
-                  selectedVideo.provider
-                    ? (selectedVideo.provider === "local"
+                  videoModal.state.provider
+                    ? (videoModal.state.provider === "local"
                         ? process.env.NEXT_PUBLIC_STRAPI_URL
-                        : "") + selectedVideo.url
-                    : "www.youtube.com/watch?v=" + selectedVideo.id.videoId
+                        : "") + videoModal.state.url
+                    : "www.youtube.com/watch?v=" + videoModal.state.id.videoId
                 }
                 width="100%"
                 height="100%"
@@ -420,13 +346,13 @@ export default function Home(props) {
         </Modal>
 
         <Modal
-          show={modal}
-          onHide={handleModalClose}
+          show={meLigueModal.state}
+          onHide={meLigueModal.onHide}
           size="lg"
           className={styles.modal}
-          centered
+          onEscapeKeyDown={meLigueModal.onHide}
           backdrop="static"
-          keyboard={false}
+          keyboard={true}
         >
           <Modal.Header closeButton>
             <Modal.Title>Me ligue</Modal.Title>
@@ -581,6 +507,6 @@ export async function getStaticProps() {
       videos: youtubeVideos.items,
       menu: formatStrapiArray(menu),
     },
-    revalidate: 1,
+    revalidate: 10,
   };
 }

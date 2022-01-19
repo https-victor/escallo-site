@@ -18,9 +18,9 @@
     flex-direction: column;
     align-items: center;
     width: 100%;
+    padding-bottom: 3rem;
     .cta {
       @include cta;
-      margin-bottom: 3rem;
     }
     .buttons {
       display: flex;
@@ -31,6 +31,11 @@
         border-color: colors.$active-text-color;
       }
       button {
+        transition: 0.5s all;
+        transform: scale(1);
+        &:hover {
+          transform: scale(1.1);
+        }
         cursor: pointer;
         margin-right: 5%;
         border: 2px solid colors.$dark-color;

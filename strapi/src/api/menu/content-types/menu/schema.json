@@ -33,6 +33,16 @@
       "required": true,
       "unique": true,
       "min": 1
+    },
+    "action": {
+      "type": "enumeration",
+      "enum": [
+        "nenhum",
+        "mostrar_formulario_de_contato",
+        "mostrar_formulario_me_ligue"
+      ],
+      "default": "nenhum",
+      "required": true
     }
   }
 }

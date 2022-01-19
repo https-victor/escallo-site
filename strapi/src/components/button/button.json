@@ -20,6 +20,21 @@
     },
     "link": {
       "type": "string"
+    },
+    "action": {
+      "type": "enumeration",
+      "enum": [
+        "nenhum",
+        "mostrar_formulario_de_contato",
+        "mostrar_formulario_me_ligue"
+      ],
+      "required": true,
+      "default": "nenhum"
+    },
+    "exterior": {
+      "type": "boolean",
+      "default": true,
+      "required": true
     }
   }
 }
